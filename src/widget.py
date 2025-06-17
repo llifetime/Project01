@@ -1,4 +1,4 @@
-def mask_card(card_info):
+def mask_card (card_info):
     """
     Маскирует номер карты, оставляя последние 4 цифры видимыми
     Пример: Visa Platinum 7000792289606361 -> Visa Platinum **** **** **** 6361
