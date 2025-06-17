@@ -20,7 +20,7 @@ def mask_card (card_info):
 from datetime import datetime
 
 
-def get_date(date_string):
+def get_date (date_string):
     """
     Преобразует дату из формата "2024-03-11T02:26:18.671407" в формат "11.03.2024"
 
