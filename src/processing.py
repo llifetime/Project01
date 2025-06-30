@@ -1,6 +1,9 @@
 
 
 def filter_by_state(list_of_dict: list, state: str = 'EXECUTED') -> list:
+
+    '''Функция для фильтрации по признаку выполнения опецрации.'''
+
     filtered_list = []
     for dict_ in list_of_dict:
         if dict_.get('state') == state:
