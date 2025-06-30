@@ -7,8 +7,7 @@ def get_mask_card_number(card_numder: str) -> str:
 
     return masked_card_show
 
-
-def get_mask_account(account_number: str) -> str:
+def get_mask_account(account_number:str) -> str:
     """
     маскировки номера банковского счета
     :return: замаскированный счет

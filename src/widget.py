@@ -1,7 +1,4 @@
-from datetime import datetime
-
-
-def mask_card(card_info: str) -> str:
+def mask_card (card_info):
     """
     Маскирует номер карты, оставляя последние 4 цифры видимыми
     Пример: Visa Platinum 7000792289606361 -> Visa Platinum **** **** **** 6361
@@ -20,7 +17,10 @@ def mask_card(card_info: str) -> str:
     return masked_number
 
 
-def get_date(date_string: str) -> str:
+from datetime import datetime
+
+
+def get_date (date_string):
     """
     Преобразует дату из формата "2024-03-11T02:26:18.671407" в формат "11.03.2024"
 
