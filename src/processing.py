@@ -1,30 +1,41 @@
+from datetime import datetime
+from typing import List, Dict, Optional
 
 
-def filter_by_state(list_of_dict: list, state: str = 'EXECUTED') -> list:
+def filter_by_state(
+        transactions: List[Dict],
+        state: Optional[str] = "EXECUTED"
+) -> List[Dict]:
+    """Фильтрует транзакции по указанному статусу.
 
-    '''Функция для фильтрации по признаку выполнения опецрации.'''
+    Args:
+        transactions: Список словарей с транзакциями
+        state: Статус для фильтрации ("EXECUTED", "PENDING", "FAILED"),
+               или None для транзакций без статуса
 
-    filtered_list = []
-    for dict_ in list_of_dict:
-        if dict_.get('state') == state:
-            filtered_list.append(dict_)
-        else:
-            continue
+    Returns:
+        Список транзакций с указанным статусом
+    """
+    if not transactions:
+        return []
 
-    return filtered_list
+    if state is None:
+        return [t for t in transactions if "state" not in t]
 
-
-result = filter_by_state(list_of_dict=eval(input("Enter the list of dictionaries: ")))
-
-
-print(result)
+    return [t for t in transactions if t.get("state") == state]
 
 
-def sort_by_date(list_of_dict: list, rev: bool = True) -> list:
+def sort_by_date(
+        transactions: List[Dict],
+        reverse: bool = False
+) -> List[Dict]:
+    """Сортирует транзакции по дате."""
 
-    ''' Функция, которая принимает список словарей и необязательный параметр,
-    задающий порядок сортировки (по умолчанию — убывание). Функция должна возвращать
-     новый список, отсортированный по дате (date).'''
+    def get_date(t):
+        date_str = t.get("date", "")
+        try:
+            return datetime.strptime(date_str, "%Y-%m-%d")
+        except (ValueError, TypeError):
+            return datetime.min if not reverse else datetime.max
 
-    sorted_list_of_date = sorted(list_of_dict, key=lambda dict_: dict_["date"], reverse=rev)
-    return sorted_list_of_date
+    return sorted(transactions, key=get_date, reverse=reverse)

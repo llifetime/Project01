@@ -1,9 +1,17 @@
-def get_mask_card_number(card_numder: str) -> str:
+def get_mask_card_number(card_number: str) -> str:
     """Маскирует 6 цифр и номера карты и
 
     разбивает на 4 блока."""
 
-    masked_card_show = card_numder[:4] + " " + card_numder[4:6] + "**" + " **** " + card_numder[-4:]
+    masked_card_show = card_number[:4] + " " + card_number[4:6] + "**" + " **** " + card_number[-4:]
+
+    # Проверка на пустую строку
+    if not card_number:
+        return "Неверный номер счета"
+
+    # Проверка, что все символы - цифры
+    if not card_number.isdigit():
+        return "Неверный номер счета"
 
     return masked_card_show
 
