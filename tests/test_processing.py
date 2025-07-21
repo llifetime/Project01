@@ -1,5 +1,6 @@
 import pytest
-from src.processing import filter_by_state, sort_by_date
+from src.processing import filter_by_state
+
 
 @pytest.fixture
 def sample_data():
@@ -11,6 +12,7 @@ def sample_data():
         {"id": 5, "state": "", "date": "invalid-date"},
         {"id": 6, "date": "2023-10-05"},  # Нет статуса
     ]
+
 
 @pytest.mark.parametrize("state, expected", [
     ("EXECUTED", [1, 3]),

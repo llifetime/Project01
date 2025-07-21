@@ -39,7 +39,6 @@ def get_date(input_str: str) -> datetime | None:
     if not input_str or not isinstance(input_str, str):
         return None
 
-
     patterns = [
         # ISO format (YYYY-MM-DD)
         (r'(?P<year>\d{4})-(?P<month>\d{1,2})-(?P<day>\d{1,2})', 'YMD'),

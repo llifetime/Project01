@@ -165,6 +165,19 @@ pycodestyle = ">=2.13.0,<2.14.0"
 pyflakes = ">=3.3.0,<3.4.0"
 
 [[package]]
+name = "generators"
+version = "2020.4.27"
+description = "a high performance pipeline processor written in python"
+optional = false
+python-versions = "*"
+files = [
+    {file = "generators-2020.4.27.tar.gz", hash = "sha256:fdf7912a89ef7818897c0666f9fb87caa264e4066c65bc1b6b0fca330a05311f"},
+]
+
+[package.dependencies]
+strict_functions = "*"
+
+[[package]]
 name = "iniconfig"
 version = "2.1.0"
 description = "brain-dead simple config-ini parsing"
@@ -395,6 +408,16 @@ pytest = ">=6.2.5"
 testing = ["fields", "hunter", "process-tests", "pytest-xdist", "virtualenv"]
 
 [[package]]
+name = "strict-functions"
+version = "2020.2.4"
+description = "Decorators for function scope control, overloading, type safety, thread safety, cache control, tracing and even self awareness!"
+optional = false
+python-versions = "*"
+files = [
+    {file = "strict_functions-2020.2.4.tar.gz", hash = "sha256:c1f22784e77151bbc808f31bb5df0d5cfbc37d329b5f3aa94db10abb169e37fe"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.14.0"
 description = "Backported and Experimental Type Hints for Python 3.9+"
@@ -408,4 +431,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "4c14b0375aa68a135050254f1fde1ea26bed1ee0fe109d5b990576de7fd455ed"
+content-hash = "6826f7b28367fea21ee2526fc47cb673d798d5ec8519f810ec0daa23bca8a356"
