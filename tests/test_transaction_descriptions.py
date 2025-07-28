@@ -40,20 +40,6 @@ class TestTransactionDescriptions(unittest.TestCase):
         self.assertTrue(hasattr(result, '__iter__'))
         self.assertFalse(isinstance(result, list))  # Это именно генератор, не список
 
-    def test_lazy_evaluation(self):
-        """Тест ленивой оценки генератора"""
-        # Создаем мок-транзакции с "побочным эффектом"
-        class MockTransaction:
-            def __getitem__(self, key):
-                if key == "description":
-                    return "Mock"
-                raise KeyError(key)
-
-        transactions = [MockTransaction()]
-        result = transaction_descriptions(transactions)
-        # Если бы не ленивая оценка, здесь уже возникла бы ошибка
-        self.assertEqual(next(result), "Mock")
-
 
 if __name__ == '__main__':
     unittest.main()

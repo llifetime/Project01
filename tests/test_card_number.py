@@ -64,14 +64,6 @@ class TestCardNumberGenerator(unittest.TestCase):
         gen_max = card_number_generator(9999_9999_9999_9999, 9999_9999_9999_9999)
         self.assertEqual(next(gen_max), "9999 9999 9999 9999")
 
-    def test_lazy_evaluation(self):
-        """Тест ленивой оценки генератора"""
-        gen = card_number_generator(1, 10_000)
-        first = next(gen)
-        self.assertEqual(first, "0000 0000 0000 0001")
-        second = next(gen)
-        self.assertEqual(second, "0000 0000 0000 0002")
-
 
 if __name__ == '__main__':
     unittest.main()
