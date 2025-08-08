@@ -1,7 +1,5 @@
 # logger_config.py
 import logging
-import os
-from datetime import datetime
 
 
 def setup_logger(name, log_file, level=logging.INFO):

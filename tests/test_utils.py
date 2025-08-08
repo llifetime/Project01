@@ -3,6 +3,7 @@ from unittest.mock import patch, MagicMock
 from src.utils import get_transaction_amount_in_rub
 from src.external_api import convert_currency
 
+
 class TestTransactionConversion(unittest.TestCase):
     @patch('external_api.convert_currency')
     def test_usd_conversion(self, mock_convert):
@@ -38,6 +39,7 @@ class TestTransactionConversion(unittest.TestCase):
         # Тест для EUR
         result = convert_currency(50, 'EUR')
         self.assertEqual(result, 4265.0)
+
 
 if __name__ == '__main__':
     unittest.main()
