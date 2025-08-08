@@ -58,3 +58,25 @@ def get_transaction_amount_in_rub(transaction: Dict) -> float:
             return convert_currency(amount, currency)
         else:
             raise ValueError(f"Unsupported currency: {currency}")
+
+if __name__ == "__main__":
+    # Пример использования
+    test_transaction = {"amount": 100, "currency": "USD"}
+    try:
+        print(get_transaction_amount_in_rub(test_transaction))
+    except ValueError as e:
+        print(f"Error: {e}")
+
+# utils.py
+from Logs.logger_config import utils_logger as logger
+
+def process_data(data):
+    logger.info("Starting data processing")
+    try:
+        # Ваша логика обработки данных
+        result = len(data)
+        logger.info(f"Data processed successfully. Result: {result}")
+        return result
+    except Exception as e:
+        logger.error(f"Error processing data: {str(e)}")
+        raise
