@@ -2,10 +2,10 @@ import os
 import json
 from urllib.request import urlopen
 from urllib.error import URLError
-from typing import Dict
 from dotenv import load_dotenv
 
 load_dotenv()  # Загружаем переменные из .env
+
 
 def convert_currency(amount: float, currency: str) -> float:
     """

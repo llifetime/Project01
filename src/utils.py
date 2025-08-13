@@ -2,6 +2,8 @@ import json
 import os
 from typing import List, Dict
 from external_api import convert_currency
+# utils.py
+from Logs.logger_config import utils_logger as logger
 
 
 def load_transactions(file_path: str) -> List[Dict]:
@@ -30,34 +32,35 @@ def load_transactions(file_path: str) -> List[Dict]:
 
 
 def get_transaction_amount_in_rub(transaction: Dict) -> float:
-        """
-        Возвращает сумму транзакции в рублях (float).
-        Если валюта — USD или EUR, конвертирует по текущему курсу.
+    """
+    Возвращает сумму транзакции в рублях (float).
+    Если валюта — USD или EUR, конвертирует по текущему курсу.
 
-        :param transaction: Словарь с данными транзакции
-        :return: Сумма в рублях (float)
-        :raises: ValueError, если транзакция некорректна или API недоступно
-        """
-        if not isinstance(transaction, dict):
-            raise ValueError("Transaction must be a dictionary")
+    :param transaction: Словарь с данными транзакции
+    :return: Сумма в рублях (float)
+    :raises: ValueError, если транзакция некорректна или API недоступно
+    """
+    if not isinstance(transaction, dict):
+        raise ValueError("Transaction must be a dictionary")
 
         amount = transaction.get('amount')
         currency = transaction.get('currency', 'RUB').upper()
 
-        if amount is None:
-            raise ValueError("Transaction is missing 'amount'")
+    if amount is None:
+        raise ValueError("Transaction is missing 'amount'")
 
         try:
             amount = float(amount)
         except (TypeError, ValueError):
             raise ValueError("Amount must be a number")
 
-        if currency == 'RUB':
-            return amount
-        elif currency in ('USD', 'EUR'):
-            return convert_currency(amount, currency)
-        else:
-            raise ValueError(f"Unsupported currency: {currency}")
+    if currency == 'RUB':
+        return amount
+    elif currency in ('USD', 'EUR'):
+        return convert_currency(amount, currency)
+    else:
+        raise ValueError(f"Unsupported currency: {currency}")
+
 
 if __name__ == "__main__":
     # Пример использования
@@ -67,8 +70,6 @@ if __name__ == "__main__":
     except ValueError as e:
         print(f"Error: {e}")
 
-# utils.py
-from Logs.logger_config import utils_logger as logger
 
 def process_data(data):
     logger.info("Starting data processing")
