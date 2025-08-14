@@ -4,8 +4,6 @@ import openpyxl
 import os
 from tempfile import NamedTemporaryFile
 from unittest.mock import patch
-
-# Импортируем функции из основного файла (предположим, они в файле finance_reader.py)
 from src.reading_from_tabs import read_financial_transactions, read_csv, read_xlsx
 
 
