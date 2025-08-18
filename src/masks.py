@@ -1,3 +1,7 @@
+# masks.py
+from Logs.logger_config import masks_logger as logger
+
+
 def get_mask_card_number(card_numder: str) -> str:
     """Маскирует 6 цифр и номера карты и
 
@@ -18,3 +22,15 @@ def get_mask_account(account_number: str) -> str:
 
 
 print(get_mask_account("73654108430135874305"))
+
+
+def mask_credit_card(card_number: str) -> str:
+    try:
+        logger.info(f"Masking credit card: {card_number}")
+        # Ваша логика маскирования
+        masked = f"{card_number[:4]} **** **** {card_number[-4:]}"
+        logger.info(f"Card successfully masked. Result: {masked}")
+        return masked
+    except Exception as e:
+        logger.error(f"Error masking card {card_number}: {str(e)}")
+        raise
