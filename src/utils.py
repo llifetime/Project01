@@ -1,6 +1,7 @@
 import json
 import os
-from typing import List, Dict
+from typing import Dict, List
+
 from external_api import convert_currency
 # utils.py
 from Logs.logger_config import utils_logger as logger

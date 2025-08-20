@@ -1,5 +1,5 @@
 import re
-from typing import List, Dict
+from typing import Dict, List
 
 
 def filter_operations_by_description(operations, search_string):

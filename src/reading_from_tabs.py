@@ -1,6 +1,7 @@
-import pandas as pd
-from typing import List, Dict
 from pathlib import Path
+from typing import Dict, List
+
+import pandas as pd
 
 
 def read_financial_transactions(file_path: str) -> List[Dict]:

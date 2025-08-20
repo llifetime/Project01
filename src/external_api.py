@@ -1,7 +1,8 @@
-import os
 import json
-from urllib.request import urlopen
+import os
 from urllib.error import URLError
+from urllib.request import urlopen
+
 from dotenv import load_dotenv
 
 load_dotenv()  # Загружаем переменные из .env
