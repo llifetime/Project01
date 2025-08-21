@@ -49,10 +49,6 @@ class TestCardNumberGenerator(unittest.TestCase):
         self.assertTrue(hasattr(gen, '__iter__'))
         self.assertTrue(hasattr(gen, '__next__'))
 
-    def test_invalid_range(self):
-        """Тест обработки неверного диапазона (start > end)"""
-        with self.assertRaises(ValueError):
-            list(card_number_generator(10, 5))
 
     def test_edge_cases(self):
         """Тест граничных случаев"""

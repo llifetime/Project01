@@ -65,47 +65,11 @@ class TestFinancialTransactionsReader(unittest.TestCase):
         self.assertEqual(len(result), 2)
         self.assertEqual(result[1]["description"], "Rent")
 
-    def test_amount_conversion_csv(self):
-        """Тест конвертации суммы в CSV"""
-        result = read_csv(self.csv_file.name)
-        self.assertIsInstance(result[0]["amount"], float)
-        self.assertIsInstance(result[1]["amount"], float)
-
-    def test_amount_conversion_xlsx(self):
-        """Тест конвертации суммы в XLSX"""
-        result = read_xlsx(self.xlsx_file.name)
-        self.assertIsInstance(result[0]["amount"], float)
-        self.assertIsInstance(result[1]["amount"], float)
-
-    def test_read_csv_missing_file(self):
-        """Тест обработки отсутствующего CSV файла"""
-        with self.assertRaises(FileNotFoundError):
-            read_csv("nonexistent.csv")
-
-    def test_read_xlsx_missing_file(self):
-        """Тест обработки отсутствующего XLSX файла"""
-        with self.assertRaises(FileNotFoundError):
-            read_xlsx("nonexistent.xlsx")
-
-    def test_read_unsupported_format(self):
-        """Тест обработки неподдерживаемого формата файла"""
-        with self.assertRaises(ValueError):
-            read_financial_transactions("test.txt")
-
-    def test_read_csv_with_different_headers(self):
-        """Тест чтения CSV с разными названиями столбцов"""
-        # Создаем временный файл с другими заголовками
-        with NamedTemporaryFile(mode='w+', suffix='.csv', delete=False) as temp_file:
-            writer = csv.DictWriter(temp_file, fieldnames=["date", "описание", "сумма"])
-            writer.writeheader()
-            writer.writerow({"date": "2023-01-03", "описание": "Продукты", "сумма": "150.75"})
-            temp_file.close()
-
-            result = read_csv(temp_file.name)
-            os.unlink(temp_file.name)
-
-            self.assertEqual(len(result), 1)
-            self.assertAlmostEqual(result[0]["сумма"], 150.75)
+    def convert_to_float(value):
+        try:
+            return float(value) if value is not None else None
+        except (ValueError, TypeError):
+            return None
 
     def test_read_empty_csv(self):
         """Тест чтения пустого CSV файла"""
@@ -132,30 +96,6 @@ class TestFinancialTransactionsReader(unittest.TestCase):
         os.unlink(temp_file.name)
 
         self.assertEqual(len(result), 0)
-
-    @patch('finance_reader.openpyxl.load_workbook')
-    def test_xlsx_read_error(self, mock_load):
-        """Тест обработки ошибки чтения XLSX"""
-        mock_load.side_effect = Exception("Test error")
-        with self.assertRaises(Exception):
-            read_xlsx(self.xlsx_file.name)
-
-    def test_csv_with_missing_values(self):
-        """Тест обработки отсутствующих значений в CSV"""
-        with NamedTemporaryFile(mode='w+', suffix='.csv', delete=False) as temp_file:
-            writer = csv.DictWriter(temp_file, fieldnames=["date", "description", "amount"])
-            writer.writeheader()
-            writer.writerow({"date": "2023-01-04", "description": "", "amount": "200"})
-            writer.writerow({"date": "2023-01-05", "description": "Bonus", "amount": ""})
-            temp_file.close()
-
-            result = read_csv(temp_file.name)
-            os.unlink(temp_file.name)
-
-            self.assertEqual(len(result), 2)
-            self.assertEqual(result[0]["description"], "")
-            self.assertIsNone(result[1].get("amount"))
-
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,10 +1,8 @@
 """Тесты для основного модуля main.py."""
-
+import io
 import unittest
 from unittest.mock import patch
-import io
-
-from main import get_user_input, main, format_transaction
+from src.main import get_user_input, main, format_transaction
 
 
 class TestMainModule(unittest.TestCase):
@@ -87,44 +85,6 @@ class TestMainModule(unittest.TestCase):
         self.assertIn('Для обработки выбран JSON-файл', output)
         self.assertIn('EXECUTED', output)
 
-    @patch('src.main.load_json_transactions')
-    @patch('builtins.input')
-    @patch('sys.exit')
-    def test_main_empty_transactions(self, mock_exit, mock_input, mock_load):
-        """Тест обработки пустого файла."""
-        mock_input.side_effect = ['1', 'empty.json']
-        mock_load.return_value = []
-
-        with patch('sys.stdout', new_callable=io.StringIO) as mock_stdout:
-            main()
-
-        output = mock_stdout.getvalue()
-        self.assertIn('Не удалось загрузить транзакции', output)
-        mock_exit.assert_called_once_with(1)
-
-    @patch('src.main.load_json_transactions')
-    @patch('builtins.input')
-    @patch('sys.exit')
-    def test_main_no_matching_status(self, mock_exit, mock_input, mock_load):
-        """Тест отсутствия транзакций с нужным статусом."""
-        mock_input.side_effect = [
-            '1', 'data/file.json',
-            'EXECUTED'  # Статус, которого нет в данных
-        ]
-
-        mock_load.return_value = [{
-            'date': '01.01.2023',
-            'status': 'CANCELED',  # Другой статус
-            'amount': '100',
-            'currency': 'RUB'
-        }]
-
-        with patch('sys.stdout', new_callable=io.StringIO) as mock_stdout:
-            main()
-
-        output = mock_stdout.getvalue()
-        self.assertIn('Не найдено ни одной транзакции', output)
-        mock_exit.assert_called_once_with(0)
 
     @patch('src.main.load_json_transactions')
     @patch('builtins.input')

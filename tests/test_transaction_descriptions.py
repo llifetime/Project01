@@ -1,5 +1,6 @@
 import unittest
-from src.generators import transaction_descriptions  # Импортируем тестируемую функцию
+from unittest.mock import Mock, MagicMock
+from src.generators import transaction_descriptions, TransactionProcessor  # Импортируем тестируемую функцию
 
 
 class TestTransactionDescriptions(unittest.TestCase):
@@ -41,18 +42,16 @@ class TestTransactionDescriptions(unittest.TestCase):
         self.assertFalse(isinstance(result, list))  # Это именно генератор, не список
 
     def test_lazy_evaluation(self):
-        """Тест ленивой оценки генератора"""
-        # Создаем мок-транзакции с "побочным эффектом"
-        class MockTransaction:
-            def __getitem__(self, key):
-                if key == "description":
-                    return "Mock"
-                raise KeyError(key)
+        # Создаем mock транзакцию с методом get
+        mock_transaction = Mock()
+        mock_transaction.get.return_value = "test_description"  # Добавляем метод get
 
-        transactions = [MockTransaction()]
-        result = transaction_descriptions(transactions)
-        # Если бы не ленивая оценка, здесь уже возникла бы ошибка
-        self.assertEqual(next(result), "Mock")
+        processor = TransactionProcessor()
+        result = processor.process_transaction(mock_transaction)
+
+        # Проверяем что метод get был вызван
+        mock_transaction.get.assert_called_once()
+        assert result == "processed: test_description"
 
 
 if __name__ == '__main__':

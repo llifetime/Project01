@@ -1,13 +1,16 @@
 import csv
 import json
+import openpyxl
+import sys
 from datetime import datetime
 from typing import Dict, List, Optional
-
-import openpyxl
-
 from src.masks import get_mask_account, get_mask_card_number
 from src.widget import get_date, mask_card
 
+def get_transactions_path():
+    """Получить путь к файлу transactions.csv"""
+    # Абсолютный путь к вашему файлу
+    absolute_path = r"D:\PythonProject\Data\transactions.csv"
 
 def load_json_transactions(file_path: str) -> List[Dict]:
     """Загружает транзакции из JSON-файла"""
@@ -162,10 +165,11 @@ def main():
     print(f"Всего банковских операций в выборке: {len(filtered)}\n")
 
     if not filtered:
-        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
+        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации", file=sys.stderr)
     else:
         for transaction in filtered:
             print(format_transaction(transaction))
+            sys.exit(1)
 
 
 if __name__ == "__main__":

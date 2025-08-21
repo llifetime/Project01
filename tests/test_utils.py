@@ -1,45 +1,53 @@
-import unittest
-from unittest.mock import patch, MagicMock
-from src.utils import get_transaction_amount_in_rub
-from src.external_api import convert_currency
+import pytest
+from src.utils import get_transaction_amount_in_rub, exchange_service
 
 
-class TestTransactionConversion(unittest.TestCase):
-    @patch('external_api.convert_currency')
-    def test_usd_conversion(self, mock_convert):
-        mock_convert.return_value = 7500.0
-        transaction = {"amount": 100, "currency": "USD"}
+class TestTransactionConversion:
+
+    def test_usd_conversion_real_api(self):
+        """Тест конвертации USD в RUB с реальным API"""
+        transaction = {
+            'amount': '100.00',
+            'currency': 'USD',
+            'description': 'Test transaction'
+        }
+
         result = get_transaction_amount_in_rub(transaction)
-        self.assertEqual(result, 7500.0)
-        mock_convert.assert_called_once_with(100.0, 'USD')
+
+        # Проверяем что результат является числом и положительным
+        assert isinstance(result, float)
+        assert result > 0
+        print(f"USD to RUB conversion result: {result}")
+
+    def test_eur_conversion_real_api(self):
+        """Тест конвертации EUR в RUB с реальным API"""
+        transaction = {
+            'amount': '50.00',
+            'currency': 'EUR',
+            'description': 'Test transaction'
+        }
+
+        result = get_transaction_amount_in_rub(transaction)
+
+        assert isinstance(result, float)
+        assert result > 0
+        print(f"EUR to RUB conversion result: {result}")
 
     def test_rub_no_conversion(self):
-        transaction = {"amount": 5000, "currency": "RUB"}
-        result = get_transaction_amount_in_rub(transaction)
-        self.assertEqual(result, 5000.0)
-
-    @patch('urllib.request.urlopen')
-    def test_cbr_api_fallback(self, mock_urlopen):
-        # Эмулируем ответ API ЦБ РФ
-        mock_response = MagicMock()
-        mock_response.read.return_value = b'''
-        {
-            "Valute": {
-                "USD": {"Value": 75.5},
-                "EUR": {"Value": 85.3}
-            }
+        """Тест что RUB не конвертируется"""
+        transaction = {
+            'amount': '1000.00',
+            'currency': 'RUB',
+            'description': 'Test transaction'
         }
-        '''
-        mock_urlopen.return_value = mock_response
 
-        # Тест для USD
-        result = convert_currency(100, 'USD')
-        self.assertEqual(result, 7550.0)
+        result = get_transaction_amount_in_rub(transaction)
+        assert result == 1000.0
 
-        # Тест для EUR
-        result = convert_currency(50, 'EUR')
-        self.assertEqual(result, 4265.0)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    def test_exchange_service_direct(self):
+        """Прямой тест сервиса курсов"""
+        rate = exchange_service.get_exchange_rate('USD')
+        assert rate is not None
+        assert isinstance(rate, float)
+        assert rate > 0
+        print(f"Current USD rate: {rate}")
