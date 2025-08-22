@@ -1,5 +1,3 @@
-
-
 def filter_by_state(list_of_dict: list, state: str = 'EXECUTED') -> list:
 
     '''Функция для фильтрации по признаку выполнения опецрации.'''
