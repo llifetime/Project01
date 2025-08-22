@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import Mock, MagicMock
+from unittest.mock import Mock
 from src.generators import transaction_descriptions, TransactionProcessor  # Импортируем тестируемую функцию
 
 

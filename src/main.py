@@ -7,10 +7,6 @@ from typing import Dict, List, Optional
 from src.masks import get_mask_account, get_mask_card_number
 from src.widget import get_date, mask_card
 
-def get_transactions_path():
-    """Получить путь к файлу transactions.csv"""
-    # Абсолютный путь к вашему файлу
-    absolute_path = r"D:\PythonProject\Data\transactions.csv"
 
 def load_json_transactions(file_path: str) -> List[Dict]:
     """Загружает транзакции из JSON-файла"""

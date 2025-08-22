@@ -85,7 +85,6 @@ class TestMainModule(unittest.TestCase):
         self.assertIn('Для обработки выбран JSON-файл', output)
         self.assertIn('EXECUTED', output)
 
-
     @patch('src.main.load_json_transactions')
     @patch('builtins.input')
     @patch('sys.exit')

@@ -3,7 +3,6 @@ import csv
 import openpyxl
 import os
 from tempfile import NamedTemporaryFile
-from unittest.mock import patch
 from src.reading_from_tabs import read_financial_transactions, read_csv, read_xlsx
 
 
@@ -96,6 +95,7 @@ class TestFinancialTransactionsReader(unittest.TestCase):
         os.unlink(temp_file.name)
 
         self.assertEqual(len(result), 0)
+
 
 if __name__ == '__main__':
     unittest.main()

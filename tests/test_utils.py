@@ -1,4 +1,3 @@
-import pytest
 from src.utils import get_transaction_amount_in_rub, exchange_service
 
 

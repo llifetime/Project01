@@ -3,6 +3,7 @@ import requests
 from typing import Optional
 from typing import Dict
 
+
 def get_transaction_amount_in_rub(transaction: Dict) -> float:
     """
     Возвращает сумму транзакции в рублях (float).
@@ -72,7 +73,7 @@ class ExchangeRateService:
 
             if data.get('success'):
                 return data['quotes'][f'{currency}RUB']
-        except:
+        except Exception:
             pass
         return None
 
@@ -85,7 +86,7 @@ class ExchangeRateService:
 
             if data.get('success', False):
                 return data['rates']['RUB']
-        except:
+        except Exception:
             pass
         return None
 
@@ -99,7 +100,7 @@ class ExchangeRateService:
             rate_data = data.get('Realtime Currency Exchange Rate', {})
             if rate_data:
                 return float(rate_data.get('5. Exchange Rate', 0))
-        except:
+        except Exception:
             pass
         return None
 
@@ -110,8 +111,9 @@ class ExchangeRateService:
             response = requests.get(url, timeout=5)
             data = response.json()
             return data['rates']['RUB']
-        except:
-            return None
+        except Exception:
+            pass
+        return None
 
     def _get_static_rate(self, currency: str) -> float:
         """Статические курсы как последний fallback"""

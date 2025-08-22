@@ -1,6 +1,4 @@
-# Logs/logger_config.py
 import logging
-import os
 from pathlib import Path
 
 
