@@ -3,21 +3,23 @@ from datetime import datetime
 
 def mask_card(card_info: str) -> str:
     """
-    Маскирует номер карты, оставляя последние 4 цифры видимыми
-    Пример: Visa Platinum 7000792289606361 -> Visa Platinum **** **** **** 6361
+    Правильно маскирует карту, даже если в названии несколько слов.
+    Пример: Visa Platinum 7000792289606361 -> Visa Platinum 7000 79** **** 6361
     """
-    # Разделяем тип и номер
-
     parts = card_info.split()
-    if len(parts) != 2:
-        raise ValueError("Некорректный формат карты")
+    if len(parts) < 2:
+        raise ValueError("Некорректный формат карты. Ожидалось название и номер.")
 
-    card_type = parts[0]
-    card_number = parts[1]
+    # Номер всегда последний элемент, остальное — тип карты
+    card_number = parts[-1]
+    card_type = " ".join(parts[:-1])
 
-    # Маскируем номер
-    masked_number = f"{card_type} {'*' * 12}{card_number[-4:]}"
-    return masked_number
+    if not card_number.isdigit() or len(card_number) < 16:
+        raise ValueError("Номер карты должен состоять минимум из 16 цифр")
+
+    # Коммерческий стандарт маскирования: разделение по 4 цифры
+    return f"{card_type} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
+
 
 
 def get_date(date_string: str) -> str:

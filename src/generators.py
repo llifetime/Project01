@@ -1,6 +1,16 @@
 from typing import Dict, Iterator, List
 
 
+class TransactionProcessor:
+    def process_transaction(self, transaction):
+        # Вероятно, здесь есть какая-то логика, которая возвращает None
+        description = transaction.get('description')
+        if description:
+            return f"processed: {description}"
+        # Если нет description, возвращается None
+        return None  # Это вызывает проблему
+
+
 def card_number_generator(start: int = 1, end: int = 9999_9999_9999_9999) -> Iterator[str]:
     """
     Генератор номеров банковских карт в формате XXXX XXXX XXXX XXXX.

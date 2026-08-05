@@ -1,8 +1,9 @@
-import json
 import csv
+import json
 import openpyxl
-from typing import List, Dict, Optional
+import sys
 from datetime import datetime
+from typing import Dict, List, Optional
 from src.masks import get_mask_account, get_mask_card_number
 from src.widget import get_date, mask_card
 
@@ -160,10 +161,11 @@ def main():
     print(f"Всего банковских операций в выборке: {len(filtered)}\n")
 
     if not filtered:
-        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
+        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации", file=sys.stderr)
     else:
         for transaction in filtered:
             print(format_transaction(transaction))
+            sys.exit(1)
 
 
 if __name__ == "__main__":
